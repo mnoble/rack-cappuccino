@@ -1,6 +1,6 @@
 # rack-cappuccino
 
-Create a Rack app from your Cappuccino app. Makes it easy to quickly get a Cappuccino app online using Heroku.
+Create a Rack app from your Cappuccino app.
 
 ## Usage
 
