@@ -15,11 +15,20 @@ Gem::Specification.new do |s|
   s.homepage     = 'http://github.com/mnoble/rack-cappuccino'
   
   s.require_path = "lib"
-  s.files        = ["Gemfile", "Gemfile.lock", "LICENSE", "README.rdoc", "Rakefile", "lib/rack/cappuccino.rb"]
+  s.files        = [
+    "changelog.markdown",
+    "Gemfile",
+    "Gemfile.lock",
+    "LICENSE",
+    "rack-cappuccino.gemspec",
+    "Rakefile",
+    "README.markdown",
+    "lib/rack/cappuccino.rb"
+  ]
   s.test_files   = Dir["spec/**/*"]
-  s.extra_rdoc_files = ["LICENSE", "README.rdoc"]
+  s.extra_rdoc_files = ["LICENSE", "README.markdown"]
 
-  s.add_dependency "rack"
   s.add_dependency "rake"
+  s.add_development_dependency "rack"
 end
 
