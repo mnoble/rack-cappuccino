@@ -2,7 +2,7 @@ require "sinatra"
 
 module Rack
   class Cappuccino < Sinatra::Base
-    VERSION = "0.0.1"
+    VERSION = "0.0.2"
     
     # Caller from when this file is loaded. Includes +config.ru+
     # which we need for +root+.
