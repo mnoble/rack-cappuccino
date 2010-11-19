@@ -1,29 +1,41 @@
-require "pathname"
-require "rack/request"
+require "sinatra"
 
 module Rack
-  class Cappuccino
+  class Cappuccino < Sinatra::Base
     VERSION = "0.0.1"
     
-    attr_accessor :root
+    # Caller from when this file is loaded. Includes +config.ru+
+    # which we need for +root+.
+    #
+    CALLER  = caller
 
-    def initialize(*args)
-      appname = args.last.delete(:appname)
-      @root   = "Build/Release/#{appname}"
+    # Little big of magic to find the directory of the +config.ru+
+    # file, ie: the root directory for our application.
+    #
+    # It looks through +CALLER+ for a call originating from +config.ru+,
+    # extracts it's relative path out and join it with +Dir.getwd+.
+    # This gives us the full path to +config.ru+ and subsequently
+    # the root of our app.
+    #
+    # If +config.ru+ was not used, it raises an error.
+    #
+    def self.root
+      config = CALLER.select { |c| c =~ /(config.ru)/ }.first
+      config = config.scan(/(^.*?config\.ru)/).flatten.first
+      ::File.dirname(::File.join(Dir.getwd, config))
+    rescue NoMethodError => e
+      raise "Rack::Cappuccino apps must be loaded from a config.ru file."
     end
 
-    def call(env)
-      info = Request.new(env).path_info
-      info = "/index.html" if info == "/"
-      path = Pathname.new(::File.join(@root, info))
-      mime = Mime.mime_type(path.extname)
+    mime_type :plist, "application/octet-stream"
+    mime_type :sj,    "application/octet-stream"
+    mime_type :cib,   "application/octet-stream"
 
-      if path.exist? && !path.directory? && path.to_s !~ /\.\./
-        [200, { "Content-Type" => mime, "Content-Length" => path.size.to_s }, [path.read]]
-      else
-        [404, {"Content-Type" => "text/plain"}, [""]]
-      end
+    set :static, true
+    set :public, lambda { self.root }
+
+    get "/" do
+      send_file ::File.join(self.class.public, "index.html")
     end
-
   end
 end

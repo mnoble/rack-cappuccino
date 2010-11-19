@@ -4,23 +4,23 @@ Create a Rack app from your Cappuccino app.
 
 ## Usage
 
-Add a Gemfile in the root of your app with the following:
+#### Build your Release target
+
+    jake release
+
+#### Create a Gemfile in your Build/Release/APPNAME directory, with the following:
 
     source :rubygems
     gem "rack-cappuccino"
-  
-Create a config.ru with the following:
 
-    require "bundler/setup"
+#### Create a config.ru in the same directory, with the following:
+
     require "rack/cappuccino"
-  
-    run Rack::Cappuccino.new(:appname => APPNAME)
-  
-Replace APPNAME with the name of your app as it appears in the Build/Release directory.
+    run Rack::Cappuccino
 
-## Build before you deploy
+#### To run locally, from your Build/Release/APPNAME directory, run:
 
-Make sure you build your Release target before you deploy your app. Rack::Cappuccino uses it as the root directory for the Rack app.
+    rackup
 
 ## Contributing to rack-cappuccino
  
