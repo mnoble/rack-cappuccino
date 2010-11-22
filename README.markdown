@@ -4,6 +4,10 @@ Create a Rack app from your Cappuccino app.
 
 ## Usage
 
+#### Pre-reqs
+
+    gem install bundler
+
 #### Build your Release target
 
     jake release
@@ -11,16 +15,31 @@ Create a Rack app from your Cappuccino app.
 #### Create a Gemfile in your Build/Release/APPNAME directory, with the following:
 
     source :rubygems
+    gem "sinatra"
     gem "rack-cappuccino"
+
+#### Install them if they're not already
+
+    bundle install
 
 #### Create a config.ru in the same directory, with the following:
 
     require "rack/cappuccino"
     run Rack::Cappuccino
 
-#### To run locally, from your Build/Release/APPNAME directory, run:
+## Deploying to Heroku
 
-    rackup
+    cd Build/Release/APPNAME
+    git init
+    bundler install
+    git add .
+    git ci -m "..."
+    heroku create
+    git push heroku master
+
+### Example application on Heroku
+
+[http://electric-stream-88.heroku.com/](http://electric-stream-88.heroku.com/)
 
 ## Contributing to rack-cappuccino
  
